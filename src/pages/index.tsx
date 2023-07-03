@@ -4,11 +4,9 @@ import { api } from "~/utils/api";
 import { SignIn, useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 
 export default function Home() {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
   const user = useUser();
 
-  const data = api.example.getAll.useQuery();
+  const { data } = api.posts.getAll.useQuery();
   return (
     <>
       <Head>
@@ -22,6 +20,11 @@ export default function Home() {
           {!!user.isSignedIn && <SignOutButton />}
         </div>
         <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
+        <div>
+          {data?.map((post) => (
+            <div key={post.id}>{post.content}</div>
+          ))}
+        </div>
       </main>
     </>
   );
