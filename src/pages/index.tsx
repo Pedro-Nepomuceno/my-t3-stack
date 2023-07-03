@@ -8,6 +8,7 @@ export default function Home() {
 
   const user = useUser();
 
+  const data = api.example.getAll.useQuery();
   return (
     <>
       <Head>
