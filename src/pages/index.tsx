@@ -25,9 +25,11 @@ export default function Home() {
             {!!user.isSignedIn && <SignOutButton />}
           </div>
           <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
-          <div>
+          <div className="flex flex-col">
             {data?.map((post) => (
-              <div key={post.id}>{post.content}</div>
+              <div key={post.id} className="border-b border-slate-400 p-8">
+                {post.content}
+              </div>
             ))}
           </div>
         </div>
