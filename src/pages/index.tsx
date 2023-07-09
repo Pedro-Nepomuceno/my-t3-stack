@@ -8,8 +8,17 @@ const CreatePostWizard = () => {
 
   if (!user) return null;
   return (
-    <div>
-      <img src={user.profileImageUrl} alt="profile Image" />
+    <div className="flex w-full gap-3">
+      <img
+        src={user.profileImageUrl}
+        alt="profile Image"
+        className="h-16 w-16 rounded-full"
+      />
+      <input
+        className="grow bg-transparent outline-none"
+        placeholder="Type something here"
+        type="text"
+      />
     </div>
   );
 };
