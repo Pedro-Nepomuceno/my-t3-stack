@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { api } from "~/utils/api";
+import { RouterOutputs, api } from "~/utils/api";
 import { SignIn, useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 
 const CreatePostWizard = () => {
@@ -20,6 +20,17 @@ const CreatePostWizard = () => {
         placeholder="Type something here"
         type="text"
       />
+    </div>
+  );
+};
+
+type PostWithUser = RouterOutputs["posts"]["getAll"][number];
+
+const PostView = (props: PostWithUser) => {
+  const { post, author } = props;
+  return (
+    <div key={post.id} className="border-b border-slate-400 p-8">
+      {post.content}
     </div>
   );
 };
@@ -49,10 +60,8 @@ export default function Home() {
           </div>
           <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
           <div className="flex flex-col">
-            {[...data, ...data]?.map(({ post, author }) => (
-              <div key={post.id} className="border-b border-slate-400 p-8">
-                {post.content}
-              </div>
+            {[...data, ...data]?.map((fullPost) => (
+              <PostView {...fullPost} key={fullPost.post.id} />
             ))}
           </div>
         </div>
