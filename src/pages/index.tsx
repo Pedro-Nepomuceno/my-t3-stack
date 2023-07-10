@@ -5,6 +5,7 @@ import { SignIn, useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 
 const CreatePostWizard = () => {
   const { user } = useUser();
+  console.log(user);
 
   if (!user) return null;
   return (
