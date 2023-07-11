@@ -35,7 +35,7 @@ const PostView = (props: PostWithUser) => {
         alt=""
         className="h-16 w-16 rounded-full"
       />
-      {post.content}
+      <span>{post.content}</span>
     </div>
   );
 };
