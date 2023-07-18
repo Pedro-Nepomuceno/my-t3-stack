@@ -26,8 +26,7 @@ export const postsRouter = createTRPCRouter({
 
     return posts.map((post) => ({
       post,
-      author: users.find((user) => user.id === post.authorId),
+      author: users.find((user) => user.id === post.authorId)!,
     }));
-    return posts;
   }),
 });
