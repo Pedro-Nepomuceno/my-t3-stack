@@ -73,7 +73,7 @@ export default function Home() {
           </div>
           <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
           <div className="flex flex-col">
-            {data.map((post) => (
+            {[...data, ...data]?.map((post) => (
               <div key={post.id}>{post.content}</div>
             ))}
           </div>
