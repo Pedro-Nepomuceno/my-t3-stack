@@ -5,6 +5,7 @@ import { SignIn, useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 
 const CreatePostWizard = () => {
   const { user } = useUser();
+
   console.log(user);
 
   if (!user) return null;
@@ -24,28 +25,28 @@ const CreatePostWizard = () => {
   );
 };
 
-type PostWithUser = RouterOutputs["posts"]["getAll"][number];
+// type PostWithUser = RouterOutputs["posts"]["getAll"][number];
 
-const PostView = (props: PostWithUser) => {
-  const { post, author } = props;
-  return (
-    <div key={post.id} className="gap-3 border-b border-slate-400 p-4">
-      <img
-        src={author?.profilePicture}
-        alt=""
-        className="h-16 w-16 rounded-full"
-      />
-      <div className="flex flex-col">
-        <div className="flex text-slate-300">
-          <span>{`
-            @${author?.username}
-          `}</span>
-        </div>
-        <span>{post.content}</span>
-      </div>
-    </div>
-  );
-};
+// const PostView = (props: PostWithUser) => {
+//   const { post, author } = props;
+//   return (
+//     <div key={post.id} className="gap-3 border-b border-slate-400 p-4">
+//       <img
+//         src={author?.profilePicture}
+//         alt=""
+//         className="h-16 w-16 rounded-full"
+//       />
+//       <div className="flex flex-col">
+//         <div className="flex text-slate-300">
+//           <span>{`
+//             @${author?.username}
+//           `}</span>
+//         </div>
+//         <span>{post.content}</span>
+//       </div>
+//     </div>
+//   );
+// };
 
 export default function Home() {
   const user = useUser();
@@ -72,9 +73,9 @@ export default function Home() {
           </div>
           <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
           <div className="flex flex-col">
-            {[...data, ...data]?.map((fullPost) => (
+            {/* {[...data, ...data]?.map((fullPost) => (
               <PostView {...fullPost} key={fullPost.post.id} />
-            ))}
+            ))} */}
           </div>
         </div>
       </main>
