@@ -43,6 +43,7 @@ const PostView = (props: PostWithUser) => {
             @${author?.username}
           `}</span>
         </div>
+
         <span>{post.content}</span>
       </div>
     </div>
