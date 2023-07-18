@@ -17,6 +17,17 @@ const filterUserForClient = (user: User) => {
 
 export const postsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.post.findMany({ take: 100 });
+    const posts = await ctx.prisma.post.findMany({ take: 100 });
+    const users = (
+      await clerkClient.users.getUserList({
+        userId: posts.map((post) => post.authorId),
+      })
+    ).map(filterUserForClient);
+
+    return posts.map((post) => ({
+      post,
+      author: users.find((user) => user.id === post.authorId),
+    }));
+    return posts;
   }),
 });
