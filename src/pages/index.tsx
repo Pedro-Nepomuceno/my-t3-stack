@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
-import { RouterOutputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 import { SignIn, useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
 
