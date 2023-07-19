@@ -38,7 +38,7 @@ const PostView = (props: PostWithUser) => {
         className="h-16 w-16 rounded-full"
       />
       <div className="flex flex-col">
-        <div className="flex font-bold text-slate-300">
+        <div className="flex gap-2 font-bold text-slate-300">
           <span>{`
             @${author?.username}
           `}</span>
