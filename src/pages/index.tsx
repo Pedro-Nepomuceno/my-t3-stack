@@ -42,6 +42,7 @@ const PostView = (props: PostWithUser) => {
           <span>{`
             @${author?.username}
           `}</span>
+          <span>{` . 1 hour ago`}</span>
         </div>
 
         <span>{post.content}</span>
