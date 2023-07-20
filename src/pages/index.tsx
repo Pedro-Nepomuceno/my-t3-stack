@@ -4,6 +4,7 @@ import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 import { SignIn, useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
+import { LoadingSpinner } from "~/components/loading";
 
 import Image from "next/image";
 
@@ -65,7 +66,7 @@ export default function Home() {
   const user = useUser();
 
   const { data, isLoading } = api.posts.getAll.useQuery();
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (!data) return <div>Something went wrong</div>;
   return (
     <>
