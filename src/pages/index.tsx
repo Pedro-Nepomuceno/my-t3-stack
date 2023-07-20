@@ -5,6 +5,8 @@ import type { RouterOutputs } from "~/utils/api";
 import { SignIn, useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
 
+import Image from "next/image";
+
 import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
