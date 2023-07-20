@@ -3,7 +3,7 @@ export const LoadingSpinner = () => {
     <div role="status">
       <svg
         aria-hidden="true"
-        className="mr-2 h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+        className="dark:text-slay-200 mr-2 h-8 w-8 animate-spin fill-gray-300 text-gray-200"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -19,5 +19,10 @@ export const LoadingSpinner = () => {
       </svg>
       <span className="sr-only">Loading...</span>
     </div>
+  );
+};
+export const LoadingPage = () => {
+  return (
+    <div className="absolute right-0 top-0 flex h-screen w-screen  justify-center align-middle"></div>
   );
 };
