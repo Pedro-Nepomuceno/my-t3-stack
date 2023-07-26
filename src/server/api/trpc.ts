@@ -31,10 +31,11 @@ import { prisma } from "~/server/db";
 export const createTRPCContext = (opts: CreateNextContextOptions) => {
   const { req } = opts;
   const sesh = getAuth(req);
-  const user = sesh.user;
+  const userId = sesh.userId;
+
   return {
     prisma,
-    currentUser: user,
+    userId,
   };
 };
 
@@ -84,13 +85,13 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.currentUser) {
+  if (!ctx.userId) {
     throw new Error("not Auth");
   }
 
   return next({
     ctx: {
-      currentUser: ctx.currentUser,
+      userId: ctx.userId,
     },
   });
 });

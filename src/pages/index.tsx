@@ -9,13 +9,16 @@ import { LoadingPage } from "~/components/loading";
 import Image from "next/image";
 
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useState } from "react";
 
 dayjs.extend(relativeTime);
 
 const CreatePostWizard = () => {
   const { user } = useUser();
 
-  console.log(user);
+  const { mutate } = api.posts.create.useMutation();
+
+  const [input, setInput] = useState("");
 
   if (!user) return null;
   return (
@@ -29,7 +32,18 @@ const CreatePostWizard = () => {
         className="grow bg-transparent outline-none"
         placeholder="Type something here"
         type="text"
+        value={input}
+        onChange={(e) => {
+          setInput(e.target.value);
+        }}
       />
+      <button
+        onClick={() => {
+          mutate({ content: input });
+        }}
+      >
+        Post
+      </button>
     </div>
   );
 };
