@@ -16,7 +16,14 @@ dayjs.extend(relativeTime);
 const CreatePostWizard = () => {
   const { user } = useUser();
 
-  const { mutate } = api.posts.create.useMutation();
+  const ctx = api.useContext();
+
+  const { mutate, isLoading: isPosting } = api.posts.create.useMutation({
+    onSuccess: () => {
+      setInput("");
+      ctx.posts.getAll.invalidate;
+    },
+  });
 
   const [input, setInput] = useState("");
 
@@ -33,6 +40,7 @@ const CreatePostWizard = () => {
         placeholder="Type something here"
         type="text"
         value={input}
+        disabled={isPosting}
         onChange={(e) => {
           setInput(e.target.value);
         }}
