@@ -6,6 +6,8 @@ import { SignIn, useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
 import { LoadingPage, LoadingSpinner } from "~/components/loading";
 
+import { type NextPage } from "next";
+
 import Image from "next/image";
 
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -50,12 +52,20 @@ const CreatePostWizard = () => {
           onClick={() => {
             mutate({ content: input });
           }}
+          onKeyDown={(e) => {
+            if (e.key == "enter") {
+              e.preventDefault();
+              if (input !== "") {
+                mutate({ content: input });
+              }
+            }
+          }}
         >
           Post
         </button>
       )}
       {isPosting && (
-        <div>
+        <div className="flex items-center justify-center">
           <LoadingSpinner size={20} />{" "}
         </div>
       )}
@@ -77,12 +87,16 @@ const PostView = (props: PostWithUser) => {
       />
       <div className="flex flex-col">
         <div className="flex gap-2 font-bold text-slate-300">
-          <span>{`
+          <Link href={`/@${author?.username}`}>
+            <span>{`
             @${author?.username}
           `}</span>
-          <span className="font-thin">{` . ${dayjs(
-            post.createdAt
-          ).fromNow()}`}</span>
+          </Link>
+          <Link href={`/post/${post.id}`}>
+            <span className="font-thin">{` . ${dayjs(
+              post.createdAt
+            ).fromNow()}`}</span>
+          </Link>
         </div>
 
         <span>{post.content}</span>
