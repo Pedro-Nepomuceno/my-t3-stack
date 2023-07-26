@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 import { SignIn, useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import dayjs from "dayjs";
-import { LoadingPage } from "~/components/loading";
+import { LoadingPage, LoadingSpinner } from "~/components/loading";
 
 import Image from "next/image";
 
@@ -45,13 +45,20 @@ const CreatePostWizard = () => {
           setInput(e.target.value);
         }}
       />
-      <button
-        onClick={() => {
-          mutate({ content: input });
-        }}
-      >
-        Post
-      </button>
+      {input !== "" && !isPosting && (
+        <button
+          onClick={() => {
+            mutate({ content: input });
+          }}
+        >
+          Post
+        </button>
+      )}
+      {isPosting && (
+        <div>
+          <LoadingSpinner size={20} />{" "}
+        </div>
+      )}
     </div>
   );
 };
