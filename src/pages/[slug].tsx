@@ -2,6 +2,7 @@ import Head from "next/head";
 import { type NextPage } from "next";
 import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
+import { createSSGHelpers } from "@trpc/react/ssg";
 
 export default function ProfilePage() {
   const { data, isLoading } = api.profile.getUserByUsername.useQuery({
@@ -21,3 +22,18 @@ export default function ProfilePage() {
     </>
   );
 }
+
+const {
+  prefetchQuery,
+  prefetchInfiniteQuery,
+  fetchQuery,
+  fetchInfiniteQuery,
+  dehydrate,
+  queryClient,
+} = await createSSGHelpers({
+  router: appRouter,
+  ctx: createContext,
+  transformer: superjson, // optional - adds superjson serialization
+});
+
+export const getStaticProps = async (contex) => {};
