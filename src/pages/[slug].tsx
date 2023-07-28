@@ -22,18 +22,20 @@ export default function ProfilePage() {
     </>
   );
 }
+import { prisma } from "~/server/db";
+import { appRouter } from "~/server/api/root";
 
-const {
-  prefetchQuery,
-  prefetchInfiniteQuery,
-  fetchQuery,
-  fetchInfiniteQuery,
-  dehydrate,
-  queryClient,
-} = await createSSGHelpers({
-  router: appRouter,
-  ctx: createContext,
-  transformer: superjson, // optional - adds superjson serialization
-});
-
-export const getStaticProps = async (contex) => {};
+export const getStaticProps = async (contex) => {
+  const {
+    prefetchQuery,
+    prefetchInfiniteQuery,
+    fetchQuery,
+    fetchInfiniteQuery,
+    dehydrate,
+    queryClient,
+  } = await createSSGHelpers({
+    router: appRouter,
+    ctx: { prisma, user: null },
+    transformer: superjson, // optional - adds superjson serialization
+  });
+};
