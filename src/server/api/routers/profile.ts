@@ -35,7 +35,7 @@ const filterUserForClient = (user: User) => {
   };
 };
 
-export const postsRouter = createTRPCRouter({
+export const profileRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const posts = await ctx.prisma.post.findMany({
       take: 100,
