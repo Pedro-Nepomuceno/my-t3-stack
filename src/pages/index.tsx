@@ -128,14 +128,17 @@ export default function Home() {
 
   return (
     <PageLayout>
-      {!isSignedIn && (
-        <div className="flex justify-center">
-          <SignInButton />
-        </div>
-      )}
-      {!!isSignedIn && <CreatePostWizard />}
+      <div className="flex border-b border-slate-400 p-4">
+        {!isSignedIn && (
+          <div className="flex justify-center">
+            <SignInButton />
+          </div>
+        )}
+        {!!isSignedIn && <CreatePostWizard />}
+
+        <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
+      </div>
       <Feed />
-      <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
     </PageLayout>
   );
 }
