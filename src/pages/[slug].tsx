@@ -25,7 +25,8 @@ export default function ProfilePage() {
 import { prisma } from "~/server/db";
 import { appRouter } from "~/server/api/root";
 
-export const getStaticProps = async (contex) => {
+
+export const getStaticProps = async () => {
   const {
     prefetchQuery,
     prefetchInfiniteQuery,
@@ -35,7 +36,6 @@ export const getStaticProps = async (contex) => {
     queryClient,
   } = await createSSGHelpers({
     router: appRouter,
-    ctx: { prisma, user: null },
-    transformer: superjson, // optional - adds superjson serialization
+    ctx: { prisma, userIds: null },
   });
 };
