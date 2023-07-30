@@ -14,6 +14,8 @@ import {
 import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
 import { Redis } from "@upstash/redis";
 
+import { Post } from "@prisma/client";
+
 // Create a new ratelimiter, that allows 3 requests per 1 min
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -33,6 +35,43 @@ const filterUserForClient = (user: User) => {
     username: user.username,
     profilePicture: user.profileImageUrl,
   };
+};
+
+const addUserDataToPosts = async (posts: Post[]) => {
+  const userId = posts.map((post) => post.authorId);
+  const users = (
+    await clerkClient.users.getUserList({
+      userId: userId,
+      limit: 110,
+    })
+  ).map(filterUserForClient);
+
+  return posts.map((post) => {
+    const author = users.find((user) => user.id === post.authorId);
+
+    if (!author) {
+      console.error("AUTHOR NOT FOUND", post);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: `Author for post not found. POST ID: ${post.id}, USER ID: ${post.authorId}`,
+      });
+    }
+    if (!author.username) {
+      if (!author) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: `Author has no GitHub Account: ${author}`,
+        });
+      }
+    }
+    return {
+      post,
+      author: {
+        ...author,
+        username: author.username ?? "(username not found)",
+      },
+    };
+  });
 };
 
 export const postsRouter = createTRPCRouter({
@@ -56,6 +95,25 @@ export const postsRouter = createTRPCRouter({
       };
     });
   }),
+
+  getPostsByUserId: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) =>
+      ctx.prisma.post
+        .findMany({
+          where: {
+            authorId: input.userId,
+          },
+          take: 100,
+          orderBy: [{ createdAt: "desc" }],
+        })
+        .then(addUserDataToPosts)
+    ),
+
   create: privateProcedure
     .input(z.object({ content: z.string().min(1).max(250) }))
     .mutation(async ({ ctx, input }) => {

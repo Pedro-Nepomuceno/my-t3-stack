@@ -2,12 +2,31 @@ import Head from "next/head";
 import { type NextPage } from "next";
 import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
+import { LoadingPage } from "~/components/loading";
+
+const ProfileFeed = (props: { userId: string }) => {
+  const { data, isLoading } = api.posts.getPostsByUserId.useQuery({
+    userId: props.userId,
+  });
+
+  if (isLoading) return <LoadingPage />;
+
+  if (!data || data.length === 0) return <div>User has not posted</div>;
+
+  return (
+    <div className="flex flex-col">
+      {data.map((fullPost) => (
+        <PostView {...fullPost} key={fullPost.post.id} />
+      ))}
+    </div>
+  );
+};
 
 export default function ProfilePage() {
   const { data, isLoading } = api.profile.getUserByUsername.useQuery({
     username: "Pedro",
   });
-  if (isLoading) return <div>...Loading</div>;
+  if (isLoading) return <LoadingPage />;
   if (!data) return <div>404</div>;
   return (
     <>
