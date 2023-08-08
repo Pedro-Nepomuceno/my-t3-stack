@@ -8,4 +8,6 @@ This is a project built from youtube with the intention of learning the followin
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
 
+deployed on Vercel -   https://my-t3-stack-eta.vercel.app
+
 
